@@ -1,18 +1,66 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom/dist";
+import { loginUser, logoutUser } from "../Redux/Actions/UserAction";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Login() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
+  const navigate = useNavigate();
 
-  const submitLogin = (event) => {
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [formData]);
+
+  const dispatch = useDispatch();
+
+  const submitLogin = async (event) => {
     event.preventDefault();
 
-    // setFormData({ username: "", password: "" });
+    try {
+      await dispatch(loginUser(formData));
+      // setFormData({ username: "", password: "" });
+    } catch (error) {
+      console.error(error);
+
+      if (error?.response?.status >= 400 && error?.response?.status < 500) {
+        setErrorMessage("The Data You Entered Is Incorrect");
+      } else {
+        setErrorMessage("Something Went Wrong");
+      }
+    }
+  };
+
+  const { token } = useSelector((state) => state.UserReducer);
+
+  const test = async () => {
+    try {
+      const { data } = await axios.get("/user/is-token-verify", {
+        headers: { "x-access-token": token },
+      });
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const logout = () => {
+    dispatch(logoutUser());
   };
 
   return (
-    <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      <Button onClick={test}>test</Button>
+      <Button onClick={logout}>logout</Button>
+      {errorMessage && (
+        <Alert style={{ width: "35%" }} variant="danger">
+          {errorMessage}
+        </Alert>
+      )}
       <Form
         onSubmit={submitLogin}
         style={{
@@ -53,6 +101,15 @@ export default function Login() {
           style={{ width: "65%" }}
         >
           LOGIN
+        </Button>
+        <Button
+          onClick={() => navigate("/sign-up")}
+          variant="link"
+          size=""
+          className=""
+          style={{ width: "70%" }}
+        >
+          Need New Account?
         </Button>
       </Form>
     </div>

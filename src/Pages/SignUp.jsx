@@ -1,22 +1,51 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Alert, Button, Form } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom/dist";
+import { signUpUser } from "../Redux/Actions/UserAction";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     verifyPassword: "",
   });
 
-  const submitLogin = (event) => {
-    event.preventDefault();
+  const [errorMessage, setErrorMessage] = useState("");
 
-    // setFormData({ username: "", password: "" ,verifyPassword:"" });
+  useEffect(() => {
+    setErrorMessage("");
+  }, [formData]);
+
+  const dispatch = useDispatch();
+
+  const submitLogin = async (event) => {
+    event.preventDefault();
+    try {
+      await dispatch(signUpUser(formData));
+      setFormData({ username: "", password: "", verifyPassword: "" });
+    } catch (error) {
+      console.error(error);
+
+      if (error?.response?.status >= 400 && error?.response?.status < 500) {
+        setErrorMessage("The Data You Entered Is Incorrect");
+      } else {
+        setErrorMessage("Something Went Wrong");
+      }
+    }
   };
 
   return (
-    <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+    <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
+      {errorMessage && (
+        <Alert style={{ width: "35%" }} variant="danger">
+          {errorMessage}
+        </Alert>
+      )}
       <Form
         onSubmit={submitLogin}
         style={{
@@ -87,10 +116,19 @@ export default function SignUp() {
         <Button
           type="submit"
           size="lg"
-          className="my-5"
+          className="my-3"
           style={{ width: "70%" }}
         >
           SIGN-UP
+        </Button>
+        <Button
+          onClick={() => navigate("/login")}
+          variant="link"
+          size=""
+          className=""
+          style={{ width: "70%" }}
+        >
+          Already Register? Go To Login
         </Button>
       </Form>
     </div>

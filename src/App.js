@@ -8,14 +8,23 @@ import HomePage from "./Pages/HomePage";
 import Login from "./Pages/Login";
 import SignUp from "./Pages/SignUp";
 
+import "./Config/axios.config";
+import AutoNavigateRoutes from "./Components/AutoNavigateRoutes";
+import { useSelector } from "react-redux";
+import Store from "./Redux/store";
+
 const DATA = "data";
 
 function App() {
+  const { token } = useSelector((state) => state.UserReducer);
+  console.log(token);
+  // console.log(Store.getState()?.lastAction);
+
   const [list, setList] = useState(null);
 
   useEffect(() => {
     const temp = JSON.parse(localStorage.getItem(DATA));
-    console.log(temp);
+    // console.log(temp);
     setList(temp ? temp : []);
   }, []);
 
@@ -31,8 +40,10 @@ function App() {
             path="/"
             element={<HomePage list={list} setList={setList} />}
           />
+          {/* <Route element={<AutoNavigateRoutes />}> */}
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
+          {/* </Route> */}
           <Route
             path="/detail/:movieName"
             element={<Detail list={list} setList={setList} />}
