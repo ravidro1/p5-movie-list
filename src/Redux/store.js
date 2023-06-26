@@ -2,15 +2,17 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import { composeWithDevTools } from "@redux-devtools/extension";
 
-import { UserReducer } from "./Reducers/UserReducer";
+import UserReducer from "./Reducers/UserReducer";
+import MovieReviewReducer from "./Reducers/MovieReviewReducer";
 import axios from "axios";
+
+axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
 const refreshToken = async () => {
   try {
-    const { data } = await axios.get(
-      process.env.REACT_APP_BACKEND_URL + "/user/refresh-token",
-      { withCredentials: true }
-    );
+    const { data } = await axios.get("/user/refresh-token", {
+      withCredentials: true,
+    });
     console.log(data);
     return data.accessToken;
   } catch (error) {
@@ -19,10 +21,22 @@ const refreshToken = async () => {
   }
 };
 
-const reducer = combineReducers({ UserReducer });
+const getAllMovieReviews = async () => {
+  try {
+    const { data } = await axios.get("/movieReview/getAllMovieReviews");
+    return data.movieReviewsList;
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
 
-// const initialState = {};
-const initialState = { UserReducer: { token: await refreshToken() } };
+const reducer = combineReducers({ UserReducer, MovieReviewReducer });
+
+const initialState = {
+  UserReducer: { token: await refreshToken() },
+  MovieReviewReducer: { movieReviewsList: await getAllMovieReviews() },
+};
 
 const middleware = [thunk];
 

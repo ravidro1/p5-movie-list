@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-function FullList({list, setList}) {
+function FullList({ list, setList }) {
   return (
     <div>
       <NavLink to={"/"}>
@@ -12,16 +12,22 @@ function FullList({list, setList}) {
       <button onClick={() => setList([])}> Clear All</button>
 
       {list &&
-        list.map((item, index) =>  {
+        list.map((item, index) => {
           return (
-            <div key={index} style={{borderColor: "black", borderStyle: "solid", borderWidth: "thick"}}>
-            <h1> {index+1} </h1>
-            <ul>  
-              {Object.keys(item).map((key) => (
-                <li key={key}> {item[key]} </li>
-              )
-              )}
-            </ul>
+            <div
+              key={index}
+              style={{
+                borderColor: "black",
+                borderStyle: "solid",
+                borderWidth: "thick",
+              }}
+            >
+              <h1> {index + 1} </h1>
+              <ul>
+                {Object.keys(item).map((key) => (
+                  <li key={key}> {item[key]} </li>
+                ))}
+              </ul>
             </div>
           );
         })}

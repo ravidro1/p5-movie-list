@@ -13,13 +13,16 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 function App() {
-  const { token } = useSelector((state) => state.UserReducer);
-  console.log(token);
+  // const { token } = useSelector((state) => state.UserReducer);
+  // console.log(token);
   // console.log(Store.getState()?.lastAction);
 
   const [list, setList] = useState([]);
   return (
-    <div style={{ width: "100vw", height: "100vh" }} className="bg-light">
+    <div
+      style={{ minWidth: "100vw", minHeight: "100vh", overflow: "hidden" }}
+      className="bg-light"
+    >
       {list != null && (
         <Routes>
           <Route
