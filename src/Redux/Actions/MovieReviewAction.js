@@ -6,22 +6,19 @@ import {
   GET_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
-export const createMovieReview =
-  ({ movieName }) =>
-  async (dispatch) => {
-    const { data } = await axios.post("/movieReview/createMovie", {
-      movieName,
-    });
+export const createMovieReview = (inputData) => async (dispatch) => {
+  // console.log(inputData);
+  const { data } = await axios.post("/movieReview/createMovie", inputData);
 
-    console.log(data);
+  console.log(data);
 
-    dispatch({
-      type: CREATE_MOVIE_REVIEW,
-      payload: {
-        newMovie: data.newMovie,
-      },
-    });
-  };
+  dispatch({
+    type: CREATE_MOVIE_REVIEW,
+    payload: {
+      newMovie: data.newMovie,
+    },
+  });
+};
 
 export const getAllMovieReviews = () => async (dispatch) => {
   const { data } = await axios.get("/movieReview/getAllMovieReviews");

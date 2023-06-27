@@ -3,6 +3,7 @@ import { Button } from "react-bootstrap";
 
 import MoviesReviewSection from "../Components/MoviesReviewSection";
 import AddNewMovieReviewForm from "../Components/AddNewMovieReviewForm";
+import SearchMovie from "../Components/SearchMovie";
 
 function HomePage({}) {
   return (
@@ -12,7 +13,7 @@ function HomePage({}) {
     >
       <Button>Logout</Button>
       <AddNewMovieReviewForm />
-
+      <SearchMovie />
       <MoviesReviewSection />
     </div>
   );
