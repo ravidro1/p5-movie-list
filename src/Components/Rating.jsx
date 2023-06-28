@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Rating({ rate, movieID, numberOfRate }) {
+export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
   const [hover, setHover] = useState({ isHover: false, hoverOn: null });
   const [hoverValue, setHoverValue] = useState(null);
 
@@ -54,7 +54,7 @@ export default function Rating({ rate, movieID, numberOfRate }) {
                     left: leftRelativeToCard + elementRect?.width / 2 + "px",
                     top: topRelativeToCard + "px",
                     transform: "translate(-50%,-120%)",
-                    backgroundColor: "#0c0c0c",
+                    backgroundColor: "#0c0c0ca3",
                     color: "#fff",
                     padding: "10px 50px",
                     fontWeight: "bold",
@@ -73,8 +73,8 @@ export default function Rating({ rate, movieID, numberOfRate }) {
                   onMouseMove={(e) => mouseListen(e)}
                   style={{
                     color: "#f8e825",
-                    fontSize: "40px",
-                    width: "50px",
+                    fontSize: size,
+                    width: `calc(${size} + ${size}/4)`,
                     aspectRatio: "1/1",
                   }}
                   className={
@@ -91,8 +91,9 @@ export default function Rating({ rate, movieID, numberOfRate }) {
           })}
       </section>
       <p className="d-flex">
-        <strong> {String(rate)?.substring(0, 5)}</strong> &nbsp; FROM &nbsp;
-        <strong>{numberOfRate}</strong> &nbsp; Rates
+        Rating &nbsp; <strong> {String(rate)?.substring(0, 5)}</strong> &nbsp;
+        Out Of &nbsp;
+        <strong>{numberOfRate}</strong> &nbsp; Ratings
       </p>
     </div>
   );

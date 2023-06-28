@@ -3,7 +3,8 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { createMovieReview } from "../Redux/Actions/MovieReviewAction";
 import MultiSelect from "./MultiSelect";
-import { categories } from "./globalConsts";
+import { categories } from "../Global/globalConsts";
+import { useNavigate } from "react-router-dom/dist";
 
 export default function AddNewMovieReviewForm() {
   const [inputData, setInputData] = useState({
@@ -37,7 +38,6 @@ export default function AddNewMovieReviewForm() {
       //     name: "",
       //     description: "",
       //     releaseDate: "",
-      //     d: false,
       //     categories: [],
       //   });
     } catch (error) {
@@ -70,6 +70,7 @@ export default function AddNewMovieReviewForm() {
           placeholder="Description"
         />
         <MultiSelect
+          values={inputData.categories}
           title={"Categories"}
           options={categories}
           style={{

@@ -8,7 +8,7 @@ export default function MoviesReviewSection() {
   console.log(movieReviewsList);
   return (
     <div className="w-100 d-flex flex-wrap justify-content-center">
-      {movieReviewsList.map((oneMovie, index) => {
+      {movieReviewsList?.map((oneMovie, index) => {
         return <OneMovie key={index} movieData={oneMovie} />;
       })}
     </div>

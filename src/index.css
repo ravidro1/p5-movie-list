@@ -15,4 +15,7 @@ code {
 
 * {
   outline: none;
+  /* overflow-y: overlay; */
+  /* scrollbar-gutter: stable both-edges; */
+  /* scrollbar-gutter: stable; */
 }

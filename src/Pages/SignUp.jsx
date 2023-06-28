@@ -120,15 +120,21 @@ export default function SignUp() {
         >
           SIGN-UP
         </Button>
-        <Button
-          onClick={() => navigate("/login")}
-          variant="link"
-          size=""
-          className=""
-          style={{ width: "70%" }}
-        >
-          Already Register? Go To Login
-        </Button>
+        <div className="d-flex flex-wrap justify-content-center">
+          <Button
+            onClick={() => navigate("/login")}
+            variant="link"
+            size="sm"
+            className=""
+            // style={{ width: "70%" }}
+          >
+            Already Register? Go To Login
+          </Button>
+          <Button size="sm" variant="link" onClick={() => navigate("/")}>
+            {" "}
+            Skip Sign-Up - Guest Mode{" "}
+          </Button>
+        </div>
       </Form>
     </div>
   );

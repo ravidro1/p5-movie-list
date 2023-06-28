@@ -35,27 +35,27 @@ export default function Login() {
     }
   };
 
-  const { token } = useSelector((state) => state.UserReducer);
+  // const { token } = useSelector((state) => state.UserReducer);
 
-  const test = async () => {
-    try {
-      const { data } = await axios.get("/user/is-token-verify", {
-        headers: { "x-access-token": token },
-      });
-      console.log(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const test = async () => {
+  //   try {
+  //     const { data } = await axios.get("/user/is-token-verify", {
+  //       headers: { "x-access-token": token },
+  //     });
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
-  const logout = () => {
-    dispatch(logoutUser());
-  };
+  // const logout = () => {
+  //   dispatch(logoutUser());
+  // };
 
   return (
     <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-      <Button onClick={test}>test</Button>
-      <Button onClick={logout}>logout</Button>
+      {/* <Button onClick={test}>test</Button>
+      <Button onClick={logout}>logout</Button> */}
       {errorMessage && (
         <Alert style={{ width: "35%" }} variant="danger">
           {errorMessage}
@@ -102,15 +102,16 @@ export default function Login() {
         >
           LOGIN
         </Button>
-        <Button
-          onClick={() => navigate("/sign-up")}
-          variant="link"
-          size=""
-          className=""
-          style={{ width: "70%" }}
-        >
-          Need New Account?
-        </Button>
+
+        <div className="d-flex flex-wrap justify-content-around">
+          <Button onClick={() => navigate("/sign-up")} variant="link" size="sm">
+            Need New Account?
+          </Button>
+          <Button size="sm" variant="link" onClick={() => navigate("/")}>
+            {" "}
+            Skip Login - Guest Mode{" "}
+          </Button>
+        </div>
       </Form>
     </div>
   );

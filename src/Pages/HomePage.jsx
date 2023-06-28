@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "react-bootstrap";
 
 import MoviesReviewSection from "../Components/MoviesReviewSection";
-import AddNewMovieReviewForm from "../Components/AddNewMovieReviewForm";
 import SearchMovie from "../Components/SearchMovie";
+
+import HomePageTopBar from "../Components/HomePageTopBar";
 
 function HomePage({}) {
   return (
@@ -11,8 +11,8 @@ function HomePage({}) {
       // style={{ overflow: "hidden" }}
       className="w-100 h-100 d-flex flex-column justify-content-start align-items-center"
     >
-      <Button>Logout</Button>
-      <AddNewMovieReviewForm />
+      <HomePageTopBar />
+      <h1>Movie Reviews:</h1>
       <SearchMovie />
       <MoviesReviewSection />
     </div>

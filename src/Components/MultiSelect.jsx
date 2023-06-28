@@ -5,21 +5,25 @@ export default function MultiSelect({
   style,
   onchange,
   options,
+  values,
 }) {
   const [isSelectOpen, setIsSelectOpen] = useState(false);
-  const [checkedIndexes, setCheckedIndexes] = useState([]);
   const [searchValue, setSearchValue] = useState("");
 
   const selectRef = useRef();
   const selectSize = selectRef?.current?.getBoundingClientRect();
 
   useEffect(() => {
-    if (typeof onchange == "function")
-      onchange(checkedIndexes?.map((item) => item.value));
-  }, [checkedIndexes]);
+    if (Array.isArray(options) && checkIfDuplicateExists(options))
+      throw new Error("The Options Array Must Be Unique");
+  }, []);
+
+  const checkIfDuplicateExists = (arr) => {
+    return new Set(arr).size !== arr.length;
+  };
 
   return (
-    <div style={{ position: "relative" }} className="">
+    <div style={{ position: "relative", color: style?.color }} className="">
       <div
         onClick={() => setIsSelectOpen(!isSelectOpen)}
         ref={selectRef}
@@ -35,9 +39,7 @@ export default function MultiSelect({
           className="m-0"
           style={{ overflow: "hidden", textOverflow: "ellipsis" }}
         >
-          {checkedIndexes.length > 0
-            ? checkedIndexes?.map((item) => item.value).toString()
-            : title}
+          {values?.length > 0 ? values?.toString() : title}
         </p>
       </div>
 
@@ -46,10 +48,8 @@ export default function MultiSelect({
           className="rounded"
           style={{
             position: "absolute",
-            // backgroundColor: "#cfcfcf",
             backgroundColor: "#fff",
             width: "100%",
-            // height: "200px",
             left: 0,
             top: selectSize?.height + "px",
             zIndex: 10,
@@ -83,20 +83,21 @@ export default function MultiSelect({
                     borderBottom: "1px solid #dee2e6",
                   }}
                   onClick={() => {
-                    if (checkedIndexes.some((item) => item.index == index)) {
-                      setCheckedIndexes(
-                        checkedIndexes.filter((item) => item.index != index)
-                      );
+                    if (values?.includes(option)) {
+                      onchange(values?.filter((item) => item != option));
                     } else {
-                      setCheckedIndexes([
-                        ...checkedIndexes,
-                        { value: option, index },
-                      ]);
+                      if (!Array.isArray(values)) {
+                        onchange([option]);
+                      } else {
+                        if (typeof onchange == "function")
+                          onchange([...values, option]);
+                      }
+                      // else setCheckedIndexes([...values, option]);
                     }
                   }}
                 >
                   <input
-                    checked={checkedIndexes.some((item) => item.index == index)}
+                    checked={values?.includes(option)}
                     onChange={() => {}}
                     className="mx-2"
                     type="checkbox"
