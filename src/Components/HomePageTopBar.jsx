@@ -19,27 +19,27 @@ export default function HomePageTopBar() {
       {token ? (
         <div className="w-100 d-flex justify-content-between">
           <Button className="px-4 py-2 m-3" onClick={logout}>
-            Logout
+            <i className="fa-solid fa-right-from-bracket" /> &nbsp; Logout
           </Button>
           <Button
             className="px-4 py-2 m-3"
             onClick={() => navigate("/CreateNewMovieReview")}
           >
-            Create New Movie Review
+            <i className="fa-solid fa-plus" /> &nbsp; Create New Movie Review
           </Button>
         </div>
       ) : (
         <div>
           <Button onClick={() => navigate("/login")} className="px-4 py-2 m-3">
             {" "}
-            Login{" "}
+            <i className="fa-solid fa-right-to-bracket" /> &nbsp; Login
           </Button>
           <Button
             onClick={() => navigate("/sign-up")}
             className="px-4 py-2 m-3"
           >
             {" "}
-            Sign-Up{" "}
+            <i className="fa-solid fa-user-plus" /> &nbsp; Sign-Up
           </Button>
         </div>
       )}

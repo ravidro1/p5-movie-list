@@ -49,7 +49,7 @@ export default function SearchMovie() {
         style={{ borderTopLeftRadius: "0", borderBottomLeftRadius: "0" }}
       >
         {" "}
-        Search{" "}
+        <i className="fa-solid fa-magnifying-glass" />{" "}
       </Button>
     </Form>
   );

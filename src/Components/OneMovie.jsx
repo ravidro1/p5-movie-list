@@ -6,12 +6,24 @@ import { formatTime } from "../Global/globalFunctions";
 
 export default function OneMovie({ movieData = {} }) {
   const navigate = useNavigate();
-  const { id, name, numberOfRate, averageRateScore, releaseDate, categories } =
-    movieData;
+  const {
+    id,
+    name,
+    numberOfRate,
+    averageRateScore,
+    releaseDate,
+    categories,
+    normalizeName,
+    pictureURL,
+  } = movieData;
 
   return (
     <Card className="mx-5 my-3" style={{ width: "20rem" }}>
-      <Card.Img variant="top" src="/logo512.png" />
+      {pictureURL ? (
+        <Card.Img variant="top" src={pictureURL} />
+      ) : (
+        <Card.Img variant="top" src="/defaultImage.svg" />
+      )}
       <Card.Body className="d-flex flex-column justify-content-between">
         <Card.Title>{name}</Card.Title>
 
@@ -28,13 +40,13 @@ export default function OneMovie({ movieData = {} }) {
         />
         <Button
           onClick={() =>
-            navigate(`/movieDetail/${name?.replaceAll(" ", "-")}`, {
-              state: movieData,
+            navigate(`/movieDetail/${normalizeName}`, {
+              state: { id },
             })
           }
         >
           Go To Reviews
-          <i class="fa-solid fa-circle-info"></i>
+          <i className="fa-solid fa-circle-info"></i>
         </Button>
       </Card.Body>
     </Card>

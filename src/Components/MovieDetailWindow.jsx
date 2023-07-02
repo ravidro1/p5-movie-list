@@ -1,20 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button, Form } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom/dist";
+import { useLocation, useNavigate } from "react-router-dom/dist";
 import Rating from "./Rating";
-import { deleteMovieReview } from "../Redux/Actions/MovieReviewAction";
-import { formatTime } from "../Global/globalFunctions";
+import {
+  deleteMovieReview,
+  updateMovieReview,
+} from "../Redux/Actions/MovieReviewAction";
+import { formatTime, uploadImage } from "../Global/globalFunctions";
 import ShowCategories from "./ShowCategories";
 import MultiSelect from "./MultiSelect";
 import { categories as importCategories } from "../Global/globalConsts";
 
-export default function MovieDetailWindow({ movieData }) {
+export default function MovieDetailWindow({}) {
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
+  const loc = useLocation();
+  const stateData = loc.state;
+
   const { token } = useSelector((state) => state.UserReducer);
+  const { movieReviewsList } = useSelector((state) => state.MovieReviewReducer);
+
+  console.log(movieReviewsList);
+
+  const [movieData, setMovieData] = useState({});
 
   const {
     averageRateScore,
@@ -24,16 +34,24 @@ export default function MovieDetailWindow({ movieData }) {
     releaseDate,
     name,
     categories,
+    pictureURL,
   } = movieData;
 
   const [isInEditMode, setIsInEditMode] = useState(false);
+  const pictureRef = useRef();
 
   const [editData, setEditData] = useState({
     name,
     description,
     releaseDate,
     categories,
+    pictureURL,
   });
+
+  useEffect(() => {
+    setMovieData(movieReviewsList.find((movie) => movie.id == stateData.id));
+    console.log(stateData.id);
+  }, [stateData.id]);
 
   const deleteMovie = async () => {
     await dispatch(deleteMovieReview({ movie_id: id }));
@@ -41,7 +59,7 @@ export default function MovieDetailWindow({ movieData }) {
   };
 
   const submitEdit = () => {
-    console.log("submitEdit");
+    dispatch(updateMovieReview({ ...editData, id }));
   };
 
   const enterEditMode = () => {
@@ -52,13 +70,15 @@ export default function MovieDetailWindow({ movieData }) {
         description,
         releaseDate,
         categories,
+        pictureURL,
       });
     }
   };
 
-  console.log(editData);
-
   const formatTimeForInput = (date) => {
+    console.log(date, 634);
+    if (date == null) return null;
+
     const dateObj = new Date(date);
 
     let day = dateObj.getDate();
@@ -72,42 +92,68 @@ export default function MovieDetailWindow({ movieData }) {
     return today;
   };
 
+  console.log(movieData);
+
   return (
-    <div
-      className="rounded p-4 d-flex flex-column"
-      style={{
-        width: "95%",
-        height: "70vh",
-        backgroundColor: "#343a40",
-        color: "#fff",
-      }}
-    >
+    <div className="MovieDetailWindow-main m-5">
       <div className="d-flex justify-content-end ">
         {token && (
           <>
-            <Button className="m-2" onClick={deleteMovie} variant="danger">
+            <Button
+              title="Delete"
+              className="m-2"
+              onClick={deleteMovie}
+              variant="danger"
+            >
               <i className="fa-sharp fa-solid fa-trash" />
             </Button>
-            <Button onClick={enterEditMode} variant="success" className="m-2">
+            <Button
+              title="Edit"
+              onClick={enterEditMode}
+              variant="success"
+              className="m-2"
+            >
               <i className="fa-solid fa-pen-to-square" />
             </Button>
           </>
         )}
-        <Button className="m-2" onClick={() => navigate("/")}>
+        <Button title="Home Page" className="m-2" onClick={() => navigate("/")}>
           <i className="fa-solid fa-house" />
         </Button>
       </div>
 
-      <div className="d-flex ">
-        <section style={{ width: "50%" }}>
-          <img className="" src="/logo512.png" alt="" />
-          {isInEditMode && <Form.Control type="file" />}
+      <div className="MovieDetailWindow-contentSection ">
+        <section className="MovieDetailWindow-img">
+          <img
+            style={{ maxWidth: "100%", minWidth: "200px" }}
+            className=""
+            src={pictureURL ? pictureURL : "/defaultImage.svg"}
+            alt=""
+          />
+          {isInEditMode && (
+            <Form.Control
+              ref={pictureRef}
+              onChange={(e) =>
+                uploadImage(
+                  e,
+                  (result) => {
+                    if (result != null)
+                      setEditData({ ...editData, image: result });
+                  },
+                  () => {
+                    if (pictureRef && pictureRef.current)
+                      pictureRef.current.value = null;
+                  }
+                )
+              }
+              size="lg"
+              className="shadow-none"
+              placeholder="pic"
+              type="file"
+            />
+          )}
         </section>
-        <section
-          className="d-flex flex-column flex-wrap gap-5 py-4"
-          //   className="d-flex flex-column justify-content-around"
-          style={{ width: "50%" }}
-        >
+        <section className="MovieDetailWindow-data">
           {isInEditMode ? (
             <Form.Control
               value={editData.name}
@@ -116,6 +162,7 @@ export default function MovieDetailWindow({ movieData }) {
               }
               className="shadow-none"
               placeholder="Movie Name"
+              size="lg"
             />
           ) : (
             <h1>{name}</h1>
@@ -127,7 +174,7 @@ export default function MovieDetailWindow({ movieData }) {
                 setEditData({ ...editData, description: e.target.value })
               }
               placeholder="Description"
-              style={{ resize: "none" }}
+              style={{ resize: "none", height: "120px", overflowY: "auto" }}
               as={"textarea"}
               className="shadow-none"
             />
@@ -142,6 +189,7 @@ export default function MovieDetailWindow({ movieData }) {
               }
               type="date"
               className="shadow-none"
+              size="lg"
             />
           ) : (
             <p>{releaseDate != null ? formatTime(releaseDate) : "--"} </p>
@@ -159,14 +207,14 @@ export default function MovieDetailWindow({ movieData }) {
               onchange={(value) =>
                 setEditData({ ...editData, categories: value })
               }
-              style={{ color: "#000" }}
+              style={{ color: "#000", height: "50px" }}
               options={importCategories}
             />
           ) : (
             <ShowCategories categories={categories} />
           )}
           {isInEditMode && (
-            <div className="">
+            <div className="d-flex justify-content-around">
               <Button onClick={submitEdit} variant="danger">
                 {" "}
                 Submit Edit{" "}

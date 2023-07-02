@@ -4,6 +4,7 @@ import {
   GET_ALL_MOVIE_REVIEW,
   GET_MOVIE_REVIEW,
   SEARCH_MOVIE_REVIEW,
+  UPDATE_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
 const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
@@ -31,6 +32,16 @@ const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
       return {
         ...state,
         movieReviewsList: action.payload.movieReviewsList,
+      };
+
+    case UPDATE_MOVIE_REVIEW:
+      return {
+        ...state,
+        movieReviewsList: state.movieReviewsList.map((movie) => {
+          if (movie.id == action.payload.editedMovie.id)
+            return action.payload.editedMovie;
+          return movie;
+        }),
       };
     default:
       console.log("MovieReviewReducer default case");

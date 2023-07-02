@@ -7,7 +7,7 @@ export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
   useEffect(() => {
     if (!hover.isHover) setHoverValue(rate);
   }, [hover]);
-
+  console.log(rate, movieID, numberOfRate);
   return (
     <div
       className="d-flex flex-column justify-content-between"
@@ -24,14 +24,14 @@ export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
             );
 
             const elementRect = element?.getBoundingClientRect();
-
+            console.log(elementRect);
             const topRelativeToCard = element?.offsetTop;
             const leftRelativeToCard = element?.offsetLeft;
 
             const mouseListen = (event) => {
-              const star = event.clientX - elementRect.x;
+              const star = event.clientX - elementRect?.x;
               const percentOfStar = Math.round(
-                (star / elementRect.width) * 100
+                (star / elementRect?.width) * 100
               );
 
               if (percentOfStar >= 70) setHoverValue(index + 1);

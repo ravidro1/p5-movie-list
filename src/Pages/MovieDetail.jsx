@@ -7,7 +7,7 @@ function MovieDetail({}) {
   const { state } = useLocation();
 
   return (
-    <div className="w-100 h-100 d-flex justify-content-around align-items-center flex-column">
+    <div className="w-100 h-100 d-flex justify-content-start align-items-center flex-column">
       <MovieDetailWindow movieData={state} />
       <MovieCommentSection />
     </div>

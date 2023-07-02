@@ -5,32 +5,41 @@ import {
   GET_ALL_MOVIE_REVIEW,
   GET_MOVIE_REVIEW,
   SEARCH_MOVIE_REVIEW,
+  UPDATE_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
 export const createMovieReview = (inputData) => async (dispatch) => {
-  const { data } = await axios.post("/movieReview/createMovie", inputData);
+  try {
+    const { data } = await axios.post("/movieReview/createMovie", inputData);
 
-  console.log(data);
+    console.log(data);
 
-  dispatch({
-    type: CREATE_MOVIE_REVIEW,
-    payload: {
-      newMovie: data.newMovie,
-    },
-  });
+    dispatch({
+      type: CREATE_MOVIE_REVIEW,
+      payload: {
+        newMovie: data.newMovie,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const getAllMovieReviews = () => async (dispatch) => {
-  const { data } = await axios.get("/movieReview/getAllMovieReviews");
+  try {
+    const { data } = await axios.get("/movieReview/getAllMovieReviews");
 
-  console.log(data);
+    console.log(data);
 
-  dispatch({
-    type: GET_ALL_MOVIE_REVIEW,
-    payload: {
-      movieReviewsList: data.movieReviewsList,
-    },
-  });
+    dispatch({
+      type: GET_ALL_MOVIE_REVIEW,
+      payload: {
+        movieReviewsList: data.movieReviewsList,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 // export const getNextTenMovieReviews = () => async (dispatch) => {
@@ -49,37 +58,64 @@ export const getAllMovieReviews = () => async (dispatch) => {
 export const searchMovieReviews =
   ({ name, categories }) =>
   async (dispatch) => {
-    const { data } = await axios.post(
-      "/movieReview/searchMovieReviewsByNameAndCategories",
-      {
-        name,
-        categories,
-      }
-    );
+    try {
+      const { data } = await axios.post(
+        "/movieReview/searchMovieReviewsByNameAndCategories",
+        {
+          name,
+          categories,
+        }
+      );
 
-    console.log(data);
+      console.log(data);
 
-    dispatch({
-      type: SEARCH_MOVIE_REVIEW,
-      payload: {
-        movieReviewsList: data.movieReviewsList,
-      },
-    });
+      dispatch({
+        type: SEARCH_MOVIE_REVIEW,
+        payload: {
+          movieReviewsList: data.movieReviewsList,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 export const deleteMovieReview =
   ({ movie_id }) =>
   async (dispatch) => {
-    const { data } = await axios.post("/movieReview/deleteMovie", {
-      movie_id,
-    });
+    try {
+      const { data } = await axios.post("/movieReview/deleteMovie", {
+        movie_id,
+      });
+
+      console.log(data);
+
+      dispatch({
+        type: DELETE_MOVIE_REVIEW,
+        payload: {
+          movie_id: movie_id,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+export const updateMovieReview = (editData) => async (dispatch) => {
+  try {
+    console.log(editData);
+
+    const { data } = await axios.post("/movieReview/updateMovie", editData);
 
     console.log(data);
 
     dispatch({
-      type: DELETE_MOVIE_REVIEW,
+      type: UPDATE_MOVIE_REVIEW,
       payload: {
-        movie_id: movie_id,
+        editedMovie: data.editedMovie,
       },
     });
-  };
+  } catch (error) {
+    console.error(error);
+  }
+};
