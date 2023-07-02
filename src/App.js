@@ -7,12 +7,16 @@ import SignUp from "./Pages/SignUp";
 import MovieDetail from "./Pages/MovieDetail";
 import CreateNewMovieReview from "./Pages/CreateNewMovieReview";
 
-import AutoNavigateRoutes from "./Components/AutoNavigateRoutes";
+import AutoNavigateRoutes from "./Navigation/AutoNavigateRoutes";
+import ProtectedRoutes from "./Navigation/ProtectedRoutes";
 
 import "./Config/axios.config";
 import "./style.css";
+import { useSelector } from "react-redux";
 
 function App() {
+  const state = useSelector((state) => state);
+  console.log(state);
   return (
     <div
       style={{
@@ -24,15 +28,17 @@ function App() {
     >
       <Routes>
         <Route path="/" element={<HomePage />} />
-        {/* <Route element={<AutoNavigateRoutes />}> */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        {/* </Route> */}
+        <Route element={<AutoNavigateRoutes />}>
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<SignUp />} />
+        </Route>
         <Route path="/movieDetail/:movieName" element={<MovieDetail />} />{" "}
-        <Route
-          path="/createNewMovieReview"
-          element={<CreateNewMovieReview />}
-        />{" "}
+        <Route element={<ProtectedRoutes />}>
+          <Route
+            path="/createNewMovieReview"
+            element={<CreateNewMovieReview />}
+          />{" "}
+        </Route>
         <Route path="*" element={<Default />} />
       </Routes>
     </div>

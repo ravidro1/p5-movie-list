@@ -7,6 +7,8 @@ import {
   UPDATE_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
+import { UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE } from "../Consts/OneRateConsts";
+
 const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
   switch (action.type) {
     case CREATE_MOVIE_REVIEW:
@@ -40,6 +42,16 @@ const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
         movieReviewsList: state.movieReviewsList.map((movie) => {
           if (movie.id == action.payload.editedMovie.id)
             return action.payload.editedMovie;
+          return movie;
+        }),
+      };
+
+    case UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE:
+      return {
+        ...state,
+        movieReviewsList: state.movieReviewsList.map((movie) => {
+          if (movie.id == action.payload.updateMovie.id)
+            return action.payload.updateMovie;
           return movie;
         }),
       };

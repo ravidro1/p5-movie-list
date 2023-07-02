@@ -8,12 +8,12 @@ import axios from "axios";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
-const refreshToken = async () => {
+export const refreshToken = async () => {
   try {
     const { data } = await axios.get("/user/refresh-token", {
       withCredentials: true,
     });
-    console.log(data);
+    // console.log(data);
     return data.accessToken;
   } catch (error) {
     console.error(error);
@@ -31,10 +31,30 @@ const getAllMovieReviews = async () => {
   }
 };
 
-const reducer = combineReducers({ UserReducer, MovieReviewReducer });
+export const getUserRates = async (token) => {
+  try {
+    const { data } = await axios.get("/oneRate/searchForUserRates", {
+      headers: { "x-access-token": token },
+    });
+    return data.userMovieRates;
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+};
+
+const token = await refreshToken();
+
+const reducer = combineReducers({
+  UserReducer,
+  MovieReviewReducer,
+});
 
 const initialState = {
-  UserReducer: { token: await refreshToken() },
+  UserReducer: {
+    token,
+    userRates: await getUserRates(token),
+  },
   MovieReviewReducer: { movieReviewsList: await getAllMovieReviews() },
 };
 

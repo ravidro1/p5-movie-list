@@ -51,7 +51,7 @@ export default function MovieDetailWindow({}) {
   useEffect(() => {
     setMovieData(movieReviewsList.find((movie) => movie.id == stateData.id));
     console.log(stateData.id);
-  }, [stateData.id]);
+  }, [stateData.id, movieReviewsList]);
 
   const deleteMovie = async () => {
     await dispatch(deleteMovieReview({ movie_id: id }));
@@ -147,7 +147,7 @@ export default function MovieDetailWindow({}) {
                 )
               }
               size="lg"
-              className="shadow-none"
+              className="shadow-none my-4"
               placeholder="pic"
               type="file"
             />

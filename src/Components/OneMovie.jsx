@@ -46,7 +46,7 @@ export default function OneMovie({ movieData = {} }) {
           }
         >
           Go To Reviews
-          <i className="fa-solid fa-circle-info"></i>
+          {/* <i className="fa-solid fa-circle-info"></i> */}
         </Button>
       </Card.Body>
     </Card>

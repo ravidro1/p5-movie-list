@@ -8,9 +8,11 @@ import {
   UPDATE_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
-export const createMovieReview = (inputData) => async (dispatch) => {
+export const createMovieReview = (inputData) => async (dispatch, getState) => {
   try {
-    const { data } = await axios.post("/movieReview/createMovie", inputData);
+    const { data } = await axios.post("/movieReview/createMovie", inputData, {
+      headers: { "x-access-token": getState()?.UserReducer?.token },
+    });
 
     console.log(data);
 
@@ -58,6 +60,11 @@ export const getAllMovieReviews = () => async (dispatch) => {
 export const searchMovieReviews =
   ({ name, categories }) =>
   async (dispatch) => {
+    if (!name && !categories) {
+      dispatch(getAllMovieReviews());
+      return;
+    }
+
     try {
       const { data } = await axios.post(
         "/movieReview/searchMovieReviewsByNameAndCategories",
@@ -82,11 +89,17 @@ export const searchMovieReviews =
 
 export const deleteMovieReview =
   ({ movie_id }) =>
-  async (dispatch) => {
+  async (dispatch, getState) => {
     try {
-      const { data } = await axios.post("/movieReview/deleteMovie", {
-        movie_id,
-      });
+      const { data } = await axios.post(
+        "/movieReview/deleteMovie",
+        {
+          movie_id,
+        },
+        {
+          headers: { "x-access-token": getState()?.UserReducer?.token },
+        }
+      );
 
       console.log(data);
 
@@ -101,11 +114,13 @@ export const deleteMovieReview =
     }
   };
 
-export const updateMovieReview = (editData) => async (dispatch) => {
+export const updateMovieReview = (editData) => async (dispatch, getState) => {
   try {
     console.log(editData);
 
-    const { data } = await axios.post("/movieReview/updateMovie", editData);
+    const { data } = await axios.post("/movieReview/updateMovie", editData, {
+      headers: { "x-access-token": getState()?.UserReducer?.token },
+    });
 
     console.log(data);
 

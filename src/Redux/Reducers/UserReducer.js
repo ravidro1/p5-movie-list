@@ -5,7 +5,9 @@ import {
   SIGNUP_USER,
 } from "../Consts/UserConsts";
 
-const UserReducer = (state = { token: null }, action) => {
+import { UPDATE_USER_MOVIE_RATES_USER } from "../Consts/OneRateConsts";
+
+const UserReducer = (state = { token: null, userRates: null }, action) => {
   switch (action.type) {
     case SIGNUP_USER:
     case REFRESH_TOKEN_USER:
@@ -13,6 +15,10 @@ const UserReducer = (state = { token: null }, action) => {
       return { ...state, token: action.payload.accessToken };
     case LOGOUT_USER:
       return { ...state, token: null };
+
+    case UPDATE_USER_MOVIE_RATES_USER:
+      return { ...state, userRates: action.payload.userMovieRates };
+
     default:
       console.log("UserReducer default case");
       return state;

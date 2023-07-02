@@ -29,6 +29,8 @@ export const loginUser = (formData) => async (dispatch, getState) => {
     },
   });
 
+  console.log(getState());
+
   //   return Promise.resolve();
   //   } catch (error) {
   //     // return error;
