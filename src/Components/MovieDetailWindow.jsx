@@ -16,13 +16,12 @@ export default function MovieDetailWindow({}) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const loc = useLocation();
-  const stateData = loc.state;
+  const { state } = useLocation();
 
   const { token } = useSelector((state) => state.UserReducer);
   const { movieReviewsList } = useSelector((state) => state.MovieReviewReducer);
 
-  console.log(movieReviewsList);
+  const pictureRef = useRef();
 
   const [movieData, setMovieData] = useState({});
 
@@ -38,7 +37,6 @@ export default function MovieDetailWindow({}) {
   } = movieData;
 
   const [isInEditMode, setIsInEditMode] = useState(false);
-  const pictureRef = useRef();
 
   const [editData, setEditData] = useState({
     name,
@@ -49,9 +47,10 @@ export default function MovieDetailWindow({}) {
   });
 
   useEffect(() => {
-    setMovieData(movieReviewsList.find((movie) => movie.id == stateData.id));
-    console.log(stateData.id);
-  }, [stateData.id, movieReviewsList]);
+    setMovieData(movieReviewsList.find((movie) => movie.id == state.id));
+  }, [state.id, movieReviewsList]);
+
+
 
   const deleteMovie = async () => {
     await dispatch(deleteMovieReview({ movie_id: id }));
@@ -91,8 +90,6 @@ export default function MovieDetailWindow({}) {
     const today = year + "-" + month + "-" + day;
     return today;
   };
-
-  console.log(movieData);
 
   return (
     <div className="MovieDetailWindow-main m-5">

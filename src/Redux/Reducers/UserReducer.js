@@ -12,9 +12,13 @@ const UserReducer = (state = { token: null, userRates: null }, action) => {
     case SIGNUP_USER:
     case REFRESH_TOKEN_USER:
     case LOGIN_USER:
-      return { ...state, token: action.payload.accessToken };
+      return {
+        ...state,
+        token: action.payload.accessToken,
+        currentUserID: action.payload.currentUserID,
+      };
     case LOGOUT_USER:
-      return { ...state, token: null };
+      return { ...state, token: null, userRates: null, currentUserID: null };
 
     case UPDATE_USER_MOVIE_RATES_USER:
       return { ...state, userRates: action.payload.userMovieRates };

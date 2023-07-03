@@ -13,6 +13,7 @@ export const signUpUser = (formData) => async (dispatch, getState) => {
     type: SIGNUP_USER,
     payload: {
       accessToken: data.accessToken,
+      currentUserID: data.id,
     },
   });
 };
@@ -26,10 +27,9 @@ export const loginUser = (formData) => async (dispatch, getState) => {
     type: LOGIN_USER,
     payload: {
       accessToken: data.accessToken,
+      currentUserID: data.id,
     },
   });
-
-  console.log(getState());
 
   //   return Promise.resolve();
   //   } catch (error) {
@@ -38,7 +38,7 @@ export const loginUser = (formData) => async (dispatch, getState) => {
   //   }
 };
 
-export const logoutUser = (formData) => async (dispatch, getState) => {
+export const logoutUser = (formData) => async (dispatch) => {
   await axios.delete("/user/logout", formData);
 
   dispatch({
@@ -47,7 +47,7 @@ export const logoutUser = (formData) => async (dispatch, getState) => {
   });
 };
 
-export const refreshTokenUser = () => async (dispatch, getState) => {
+export const refreshTokenUser = () => async (dispatch) => {
   console.log("refresh1");
   const res = await axios.get("/user/refresh-token");
   console.log("refresh2");
@@ -56,6 +56,7 @@ export const refreshTokenUser = () => async (dispatch, getState) => {
     type: REFRESH_TOKEN_USER,
     payload: {
       accessToken: res.data.accessToken,
+      currentUserID: res.data.id,
     },
   });
   return { status: res.status, token: res.data.accessToken };

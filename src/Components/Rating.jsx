@@ -39,6 +39,7 @@ export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
                 <strong>You Already Rate This Movie</strong>
               </p>
               <Button
+                title="Delete Rate"
                 style={{ borderRadius: "30%" }}
                 onClick={deleteRate}
                 variant="warning"

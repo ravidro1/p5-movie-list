@@ -8,16 +8,15 @@ import axios from "axios";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
-export const refreshToken = async () => {
+const refreshToken = async () => {
   try {
     const { data } = await axios.get("/user/refresh-token", {
       withCredentials: true,
     });
-    // console.log(data);
-    return data.accessToken;
+    return { token: data.accessToken, currentUserID: data.id };
   } catch (error) {
     console.error(error);
-    return null;
+    return { token: null, currentUserID: null };
   }
 };
 
@@ -43,7 +42,7 @@ export const getUserRates = async (token) => {
   }
 };
 
-const token = await refreshToken();
+const { token, currentUserID } = await refreshToken();
 
 const reducer = combineReducers({
   UserReducer,
@@ -53,6 +52,7 @@ const reducer = combineReducers({
 const initialState = {
   UserReducer: {
     token,
+    currentUserID,
     userRates: await getUserRates(token),
   },
   MovieReviewReducer: { movieReviewsList: await getAllMovieReviews() },
