@@ -55,7 +55,10 @@ const initialState = {
     currentUserID,
     userRates: await getUserRates(token),
   },
-  MovieReviewReducer: { movieReviewsList: await getAllMovieReviews() },
+  MovieReviewReducer: {
+    movieReviewsList: await getAllMovieReviews(),
+    loading: false,
+  },
 };
 
 const middleware = [thunk];

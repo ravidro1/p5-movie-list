@@ -5,6 +5,7 @@ import {
   GET_ALL_MOVIE_REVIEW,
   GET_MOVIE_REVIEW,
   SEARCH_MOVIE_REVIEW,
+  START_LOADING_MOVIE_REVIEW,
   UPDATE_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
@@ -29,6 +30,8 @@ export const createMovieReview = (inputData) => async (dispatch, getState) => {
 
 export const getAllMovieReviews = () => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING_MOVIE_REVIEW });
+
     const { data } = await axios.get("/movieReview/getAllMovieReviews");
 
     console.log(data);
@@ -60,6 +63,8 @@ export const getAllMovieReviews = () => async (dispatch) => {
 export const searchMovieReviews =
   ({ name, categories }) =>
   async (dispatch) => {
+    dispatch({ type: START_LOADING_MOVIE_REVIEW });
+
     if (!name && !categories) {
       dispatch(getAllMovieReviews());
       return;
@@ -73,8 +78,6 @@ export const searchMovieReviews =
           categories,
         }
       );
-
-      console.log(data);
 
       dispatch({
         type: SEARCH_MOVIE_REVIEW,

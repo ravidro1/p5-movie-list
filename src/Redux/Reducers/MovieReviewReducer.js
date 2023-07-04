@@ -4,12 +4,16 @@ import {
   GET_ALL_MOVIE_REVIEW,
   GET_MOVIE_REVIEW,
   SEARCH_MOVIE_REVIEW,
+  START_LOADING_MOVIE_REVIEW,
   UPDATE_MOVIE_REVIEW,
 } from "../Consts/MovieReviewConsts";
 
 import { UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE } from "../Consts/OneRateConsts";
 
-const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
+const MovieReviewReducer = (
+  state = { movieReviewsList: [], loading: false },
+  action
+) => {
   switch (action.type) {
     case CREATE_MOVIE_REVIEW:
       return {
@@ -27,6 +31,7 @@ const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
       return {
         ...state,
         movieReviewsList: action.payload.movieReviewsList,
+        loading: false,
       };
     // case GET_MOVIE_REVIEW:
 
@@ -34,6 +39,7 @@ const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
       return {
         ...state,
         movieReviewsList: action.payload.movieReviewsList,
+        loading: false,
       };
 
     case UPDATE_MOVIE_REVIEW:
@@ -54,6 +60,13 @@ const MovieReviewReducer = (state = { movieReviewsList: [] }, action) => {
             return action.payload.updateMovie;
           return movie;
         }),
+      };
+
+    case START_LOADING_MOVIE_REVIEW:
+      return {
+        ...state,
+        movieReviewsList: [],
+        loading: true,
       };
     default:
       console.log("MovieReviewReducer default case");

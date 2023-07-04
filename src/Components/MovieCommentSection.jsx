@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom/dist";
 import axios from "axios";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 
 import OneComment from "./OneComment";
 
@@ -12,6 +12,9 @@ export default function MovieCommentSection() {
   const { state } = useLocation();
   const movieID = state?.id;
   const { token, currentUserID } = useSelector((state) => state.UserReducer);
+
+  const [isInCreateMode, setIsInCreateMode] = useState(false);
+  const [tempNewCommentContent, setTempNewCommentContent] = useState("");
 
   useEffect(() => {
     getCurrentMovieComments();
@@ -30,28 +33,47 @@ export default function MovieCommentSection() {
   };
 
   const addComments = async () => {
-    const content = "hey123";
     try {
       const { data } = await axios.post(
         "/movieCommentRoutes/createMovieComment",
         {
           movie_id: movieID,
-          content,
+          content: tempNewCommentContent,
         },
         { headers: { "x-access-token": token } }
       );
       console.log(data.newComment);
 
-      setCurrentMovieComments((prev) => [...prev, data.newComment]);
+      setCurrentMovieComments((prev) => [data.newComment, ...prev]);
     } catch (error) {
       console.error(error);
-      setCurrentMovieComments([]);
+      // setCurrentMovieComments([]);
+    } finally {
+      setIsInCreateMode(false);
     }
   };
 
   return (
-    <div style={{ width: "95%" }}>
-      <Button onClick={addComments}>create</Button>
+    <div className="d-flex flex-column " style={{ width: "95%" }}>
+      {token &&
+        (isInCreateMode ? (
+          <>
+            <Form.Control
+              value={tempNewCommentContent}
+              onChange={(e) => setTempNewCommentContent(e.target.value)}
+              placeholder="New Comment Content"
+              className="shadow-none my-2"
+              style={{ resize: "none" }}
+              as="textarea"
+            />
+            <Button onClick={addComments}>Create</Button>
+          </>
+        ) : (
+          <Button title="Add Comment" onClick={() => setIsInCreateMode(true)}>
+            {" "}
+            <i className="fa-solid fa-plus" />{" "}
+          </Button>
+        ))}
       {currentMovieComments?.map((item, index) => {
         return (
           <OneComment

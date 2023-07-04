@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card } from "react-bootstrap";
 import Rating from "./Rating";
 import { useNavigate } from "react-router-dom/dist";
-import { formatTime } from "../Global/globalFunctions";
+import { formatDate } from "../Global/globalFunctions";
 
 export default function OneMovie({ movieData = {} }) {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function OneMovie({ movieData = {} }) {
   } = movieData;
 
   return (
-    <Card className="mx-5 my-3" style={{ width: "20rem" }}>
+    <Card className="oneMovie-main">
       {pictureURL ? (
         <Card.Img variant="top" src={pictureURL} />
       ) : (
@@ -31,7 +31,7 @@ export default function OneMovie({ movieData = {} }) {
           Categories: {categories?.length > 0 ? categories?.toString() : "--"}
         </Card.Text>
         <Card.Text>
-          Release Date: {releaseDate != null ? formatTime(releaseDate) : "--"}
+          Release Date: {releaseDate != null ? formatDate(releaseDate) : "--"}
         </Card.Text>
         <Rating
           rate={averageRateScore}

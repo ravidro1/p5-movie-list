@@ -7,7 +7,7 @@ import {
   deleteMovieReview,
   updateMovieReview,
 } from "../Redux/Actions/MovieReviewAction";
-import { formatTime, uploadImage } from "../Global/globalFunctions";
+import { formatDate, formatTime, uploadImage } from "../Global/globalFunctions";
 import ShowCategories from "./ShowCategories";
 import MultiSelect from "./MultiSelect";
 import { categories as importCategories } from "../Global/globalConsts";
@@ -50,8 +50,6 @@ export default function MovieDetailWindow({}) {
     setMovieData(movieReviewsList.find((movie) => movie.id == state.id));
   }, [state.id, movieReviewsList]);
 
-
-
   const deleteMovie = async () => {
     await dispatch(deleteMovieReview({ movie_id: id }));
     navigate("/");
@@ -93,7 +91,7 @@ export default function MovieDetailWindow({}) {
 
   return (
     <div className="MovieDetailWindow-main m-5">
-      <div className="d-flex justify-content-end ">
+      <div className="d-flex justify-content-end flex-wrap">
         {token && (
           <>
             <Button
@@ -122,8 +120,10 @@ export default function MovieDetailWindow({}) {
       <div className="MovieDetailWindow-contentSection ">
         <section className="MovieDetailWindow-img">
           <img
-            style={{ maxWidth: "100%", minWidth: "200px" }}
-            className=""
+            style={{
+              maxWidth: "100%",
+              // , minWidth: "200px"
+            }}
             src={pictureURL ? pictureURL : "/defaultImage.svg"}
             alt=""
           />
@@ -162,7 +162,7 @@ export default function MovieDetailWindow({}) {
               size="lg"
             />
           ) : (
-            <h1>{name}</h1>
+            <h1 style={{ wordBreak: "break-all" }}>{name}</h1>
           )}
           {isInEditMode ? (
             <Form.Control
@@ -189,11 +189,10 @@ export default function MovieDetailWindow({}) {
               size="lg"
             />
           ) : (
-            <p>{releaseDate != null ? formatTime(releaseDate) : "--"} </p>
+            <p>{releaseDate != null ? formatDate(releaseDate) : "--"} </p>
           )}
 
           <Rating
-            size="30px"
             movieID={id}
             numberOfRate={numberOfRate}
             rate={averageRateScore}

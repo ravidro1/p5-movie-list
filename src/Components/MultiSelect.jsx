@@ -23,11 +23,18 @@ export default function MultiSelect({
   };
 
   return (
-    <div style={{ position: "relative", color: style?.color }} className="">
+    <div
+      style={{
+        position: "relative",
+        color: style?.color,
+        width: style?.width,
+        height: style?.height,
+      }}
+    >
       <div
         onClick={() => setIsSelectOpen(!isSelectOpen)}
         ref={selectRef}
-        className="align-items-center px-3 d-flex"
+        className={"align-items-center px-3 d-flex"}
         style={{
           backgroundColor: "#fff",
           border: "1px solid #dee2e6",

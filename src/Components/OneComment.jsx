@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { formatDate, formatTime } from "../Global/globalFunctions";
 
 export default function OneComment({
   comment,
@@ -8,7 +9,7 @@ export default function OneComment({
   setCurrentMovieComments,
   currentUserID,
 }) {
-  const { username, content, id, user_id } = comment;
+  const { username, content, id, user_id, updateAt } = comment;
 
   const [isInEditMode, setIsInEditMode] = useState(false);
   const [tempContent, setTempContent] = useState("");
@@ -40,7 +41,7 @@ export default function OneComment({
       );
     } catch (error) {
       console.error(error);
-      setCurrentMovieComments([]);
+      // setCurrentMovieComments([]);
     }
   };
 
@@ -59,7 +60,7 @@ export default function OneComment({
       setCurrentMovieComments((prev) => prev.filter((item) => item.id != id));
     } catch (error) {
       console.error(error);
-      setCurrentMovieComments([]);
+      // setCurrentMovieComments([]);
     }
   };
 
@@ -74,16 +75,31 @@ export default function OneComment({
 
   return (
     <div
-      className="my-3 border p-3"
+      className="oneComment-main my-3 border p-3 d-flex justify-content-between "
       style={{
         backgroundColor: "#ffffff",
         boxShadow: "0px 0px 20px -5px #000000",
       }}
     >
-      <div className="d-flex w-100 justify-content-between">
-        <h5>{username}</h5>
+      <div className=" w-100 ">
+        <h5 style={{ wordBreak: "break-all" }}>{username}</h5>
+        {isInEditMode ? (
+          <Form.Control
+            className="shadow-none"
+            value={tempContent}
+            onChange={(e) => setTempContent(e.target.value)}
+            as="textarea"
+            placeholder="Content"
+            style={{ resize: "none" }}
+          ></Form.Control>
+        ) : (
+          <p style={{ wordBreak: "break-all" }}> {content}</p>
+        )}{" "}
+      </div>
+
+      <div className="d-flex flex-column justify-content-between align-items-end">
         {userComment && (
-          <div>
+          <div className="d-flex pb-4">
             <Button
               onClick={changeEditState}
               title="Edit Comment"
@@ -102,20 +118,10 @@ export default function OneComment({
             </Button>
           </div>
         )}
+        <small className="text-end text-nowrap">
+          {formatDate(updateAt) + " - " + formatTime(updateAt)}
+        </small>
       </div>
-
-      {isInEditMode ? (
-        <Form.Control
-          className="shadow-none"
-          value={tempContent}
-          onChange={(e) => setTempContent(e.target.value)}
-          as="textarea"
-          placeholder="Content"
-          style={{ resize: "none" }}
-        ></Form.Control>
-      ) : (
-        <p>{content}</p>
-      )}
     </div>
   );
 }

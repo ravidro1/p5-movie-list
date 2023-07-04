@@ -23,7 +23,7 @@ export default function Login() {
 
     try {
       await dispatch(loginUser(formData));
-      // setFormData({ username: "", password: "" });
+      setFormData({ username: "", password: "" });
     } catch (error) {
       console.error(error);
 
@@ -35,42 +35,23 @@ export default function Login() {
     }
   };
 
-  // const { token } = useSelector((state) => state.UserReducer);
-
-  // const test = async () => {
-  //   try {
-  //     const { data } = await axios.get("/user/is-token-verify", {
-  //       headers: { "x-access-token": token },
-  //     });
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
-  // const logout = () => {
-  //   dispatch(logoutUser());
-  // };
-
   return (
     <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-      {/* <Button onClick={test}>test</Button>
-      <Button onClick={logout}>logout</Button> */}
-      {errorMessage && (
-        <Alert style={{ width: "35%" }} variant="danger">
-          {errorMessage}
-        </Alert>
-      )}
       <Form
         onSubmit={submitLogin}
         style={{
           backgroundColor: "#fff",
-          width: "35%",
-          height: "50%",
+
           boxShadow: "5px 5px 23px 5px rgba(0,0,0,0.6)",
         }}
-        className="rounded d-flex flex-column align-items-center py-4"
+        className="login-form rounded d-flex flex-column align-items-center py-5"
       >
+        {" "}
+        {errorMessage && (
+          <Alert style={{ width: "95%" }} variant="danger">
+            {errorMessage}
+          </Alert>
+        )}
         <Form.Control
           value={formData.username}
           onChange={(e) =>
@@ -102,7 +83,6 @@ export default function Login() {
         >
           LOGIN
         </Button>
-
         <div className="d-flex flex-wrap justify-content-around">
           <Button onClick={() => navigate("/sign-up")} variant="link" size="sm">
             Need New Account?

@@ -5,6 +5,7 @@ import { createMovieReview } from "../Redux/Actions/MovieReviewAction";
 import MultiSelect from "./MultiSelect";
 import { categories } from "../Global/globalConsts";
 import { uploadImage } from "../Global/globalFunctions";
+import { useNavigate } from "react-router-dom";
 
 export default function AddNewMovieReviewForm() {
   const [inputData, setInputData] = useState({
@@ -14,6 +15,7 @@ export default function AddNewMovieReviewForm() {
     categories: [],
     image: null,
   });
+  const navigate = useNavigate();
 
   const pictureRef = useRef();
 
@@ -44,6 +46,8 @@ export default function AddNewMovieReviewForm() {
         categories: [],
         pictureUrl: null,
       });
+
+      navigate("/");
       if (pictureRef && pictureRef.current) pictureRef.current.value = null;
     } catch (error) {
       console.error(error);

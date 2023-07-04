@@ -11,12 +11,12 @@ import AutoNavigateRoutes from "./Navigation/AutoNavigateRoutes";
 import ProtectedRoutes from "./Navigation/ProtectedRoutes";
 
 import "./Config/axios.config";
-import "./style.css";
 import { useSelector } from "react-redux";
-
+import "./style";
 function App() {
   const state = useSelector((state) => state);
-  console.log(state);
+  // console.log(state);
+
   return (
     <div
       style={{

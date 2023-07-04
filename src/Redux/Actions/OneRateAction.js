@@ -17,49 +17,57 @@ const updateUserMovieRates = async (dispatch, token) => {
 export const createOrUpdateOneRate =
   ({ movie_id, rate }) =>
   async (dispatch, getState) => {
-    const token = getState()?.UserReducer?.token;
-    const { data } = await axios.post(
-      "/oneRate/createOrUpdateOneRate",
-      {
-        movie_id,
-        rate,
-      },
-      {
-        headers: { "x-access-token": token },
-      }
-    );
+    try {
+      const token = getState()?.UserReducer?.token;
+      const { data } = await axios.post(
+        "/oneRate/createOrUpdateOneRate",
+        {
+          movie_id,
+          rate,
+        },
+        {
+          headers: { "x-access-token": token },
+        }
+      );
 
-    dispatch({
-      type: UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE,
-      payload: {
-        updateMovie: data.updateMovie,
-      },
-    });
+      dispatch({
+        type: UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE,
+        payload: {
+          updateMovie: data.updateMovie,
+        },
+      });
 
-    await updateUserMovieRates(dispatch, token);
+      await updateUserMovieRates(dispatch, token);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
 export const deleteOneRate =
   ({ movie_id }) =>
   async (dispatch, getState) => {
-    const token = getState()?.UserReducer?.token;
+    try {
+      const token = getState()?.UserReducer?.token;
 
-    const { data } = await axios.post(
-      "/oneRate/deleteOneRate",
-      {
-        movie_id,
-      },
-      {
-        headers: { "x-access-token": token },
-      }
-    );
+      const { data } = await axios.post(
+        "/oneRate/deleteOneRate",
+        {
+          movie_id,
+        },
+        {
+          headers: { "x-access-token": token },
+        }
+      );
 
-    dispatch({
-      type: UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE,
-      payload: {
-        updateMovie: data.updateMovie,
-      },
-    });
+      dispatch({
+        type: UPDATE_MOVIE_REVIEW_AFTER_ACTION_IN_ONE_RATE,
+        payload: {
+          updateMovie: data.updateMovie,
+        },
+      });
 
-    await updateUserMovieRates(dispatch, token);
+      await updateUserMovieRates(dispatch, token);
+    } catch (error) {
+      console.error(error);
+    }
   };

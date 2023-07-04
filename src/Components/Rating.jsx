@@ -6,7 +6,7 @@ import {
 } from "../Redux/Actions/OneRateAction";
 import { Button } from "react-bootstrap";
 
-export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
+export default function Rating({ rate, movieID, numberOfRate }) {
   const dispatch = useDispatch();
   const { token, userRates } = useSelector((state) => state.UserReducer);
   const isUserAlreadyRateThisMovie = userRates?.includes(movieID);
@@ -34,7 +34,7 @@ export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
           style={{ position: "relative" }}
         >
           {isUserAlreadyRateThisMovie && (
-            <div className="d-flex justify-content-between ">
+            <div className="d-flex justify-content-between flex-wrap my-3">
               <p>
                 <strong>You Already Rate This Movie</strong>
               </p>
@@ -109,29 +109,28 @@ export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
                       onMouseMove={(e) => mouseListen(e)}
                       style={{
                         color: "#f8e825",
-                        fontSize: size,
-                        width: `calc(${size} + ${size}/4)`,
                         aspectRatio: "1/1",
                       }}
                       className={
-                        // "fa-2xl " +
-                        thisStarValue >= 1
+                        "rating-star " +
+                        (thisStarValue >= 1
                           ? "fa-solid fa-star"
                           : thisStarValue >= 0.5
                           ? "fa-solid fa-star-half-stroke"
-                          : "fa-regular fa-star"
+                          : "fa-regular fa-star")
                       }
                     />
                   </React.Fragment>
                 );
               })}
           </section>
-          <p className="d-flex">
-            {/* deleteOneRate */}
-            Rating &nbsp; <strong> {String(rate)?.substring(0, 5)}</strong>{" "}
-            &nbsp; Out Of &nbsp;
-            <strong>{numberOfRate}</strong> &nbsp; Ratings
-          </p>
+          <section className="d-flex flex-wrap mb-2">
+            <p className="m-0">Rating &nbsp;</p>
+            <strong> {String(rate)?.substring(0, 5)} &nbsp;</strong>
+            <p className="m-0"> Out Of &nbsp;</p>
+            <strong>{numberOfRate}</strong> &nbsp;
+            <p className="m-0">Ratings</p>
+          </section>
         </div>
       ) : (
         <div
@@ -149,27 +148,28 @@ export default function Rating({ rate, movieID, numberOfRate, size = "40px" }) {
                       id={`rating-star-index${index}+movieID${movieID}`}
                       style={{
                         color: "#f8e825",
-                        fontSize: size,
-                        width: `calc(${size} + ${size}/4)`,
                         aspectRatio: "1/1",
                       }}
                       className={
-                        thisStarValue >= 1
+                        "rating-star " +
+                        (thisStarValue >= 1
                           ? "fa-solid fa-star"
                           : thisStarValue >= 0.5
                           ? "fa-solid fa-star-half-stroke"
-                          : "fa-regular fa-star"
+                          : "fa-regular fa-star")
                       }
                     />
                   </React.Fragment>
                 );
               })}
           </section>
-          <p className="d-flex">
-            Rating &nbsp; <strong> {String(rate)?.substring(0, 5)}</strong>{" "}
-            &nbsp; Out Of &nbsp;
-            <strong>{numberOfRate}</strong> &nbsp; Ratings
-          </p>
+          <section className="d-flex flex-wrap mb-2">
+            <p className="m-0">Rating &nbsp;</p>
+            <strong> {String(rate)?.substring(0, 5)} &nbsp;</strong>
+            <p className="m-0"> Out Of &nbsp;</p>
+            <strong>{numberOfRate}</strong> &nbsp;
+            <p className="m-0">Ratings</p>
+          </section>
         </div>
       )}
     </>

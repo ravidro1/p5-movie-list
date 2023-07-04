@@ -1,0 +1,27 @@
+.sign-up-form {
+  width: 35%;
+}
+
+.login-form {
+  width: 35%;
+}
+
+@media screen and (max-width: 1200px) {
+  .sign-up-form {
+    width: 65%;
+  }
+  .login-form {
+    width: 80%;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .sign-up-form {
+    width: 100%;
+    height: 100%;
+  }
+  .login-form {
+    width: 100%;
+    height: 100%;
+  }
+}

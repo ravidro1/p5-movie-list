@@ -1,0 +1,68 @@
+.searchMovie-main {
+  display: flex;
+  width: 50%;
+}
+
+.searchMovie-input {
+  width: 45% !important;
+  height: 40px;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.searchMovie-select {
+  width: 45%;
+  height: 40px;
+}
+.searchMovie-button {
+  width: 10%;
+  height: 40px;
+
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+
+@media screen and (max-width: 1500px) {
+  .searchMovie-main {
+    width: 60%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .searchMovie-main {
+    width: 70%;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .searchMovie-main {
+    width: 85%;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .searchMovie-main {
+    width: 90%;
+    flex-direction: column;
+  }
+
+  .searchMovie-input {
+    width: 100% !important;
+    height: 55px;
+
+    border-radius: 0 !important;
+    margin-block: 5px;
+  }
+  .searchMovie-select {
+    width: 100%;
+    height: 55px;
+    margin-block: 5px;
+  }
+  .searchMovie-button {
+    width: 100% !important;
+    height: 55px;
+
+    border-radius: 0 !important;
+
+    margin-block: 5px;
+  }
+}

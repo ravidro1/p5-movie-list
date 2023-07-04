@@ -40,21 +40,19 @@ export default function SignUp() {
 
   return (
     <div className="w-100 h-100 d-flex flex-column justify-content-center align-items-center">
-      {errorMessage && (
-        <Alert style={{ width: "35%" }} variant="danger">
-          {errorMessage}
-        </Alert>
-      )}
       <Form
         onSubmit={submitLogin}
         style={{
           backgroundColor: "#fff",
-          width: "35%",
-          height: "60%",
           boxShadow: "5px 5px 23px 5px rgba(0,0,0,0.6)",
         }}
-        className="rounded d-flex flex-column align-items-center py-3"
+        className="sign-up-form rounded d-flex flex-column align-items-center py-5"
       >
+        {errorMessage && (
+          <Alert style={{ width: "95%" }} variant="danger">
+            {errorMessage}
+          </Alert>
+        )}
         <Form.Group className="my-2" style={{ width: "70%" }}>
           <Form.Label className="mx-2">Username:</Form.Label>
           <Form.Control

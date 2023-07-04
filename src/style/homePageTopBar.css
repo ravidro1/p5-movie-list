@@ -1,0 +1,24 @@
+.HomePageTopBar-whenLogged {
+  display: flex;
+  justify-content: space-between;
+}
+
+.HomePageTopBar-whenLoggedOut {
+  display: flex;
+}
+
+@media screen and (max-width: 700px) {
+  .HomePageTopBar-whenLoggedOut {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .HomePageTopBar-whenLoggedOut {
+    flex-direction: column;
+  }
+
+  .HomePageTopBar-whenLogged {
+    flex-direction: column;
+  }
+}

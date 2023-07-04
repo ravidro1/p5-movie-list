@@ -1,0 +1,11 @@
+.oneMovie-main {
+  width: 20rem;
+  margin-block: 15px;
+  margin-inline: 5px;
+}
+
+@media screen and (max-width: 650px) {
+  .oneMovie-main {
+    width: 95%;
+  }
+}

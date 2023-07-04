@@ -17,7 +17,7 @@ export default function HomePageTopBar() {
   return (
     <section className="w-100">
       {token ? (
-        <div className="w-100 d-flex justify-content-between">
+        <div className="w-100 HomePageTopBar-whenLogged">
           <Button className="px-4 py-2 m-3" onClick={logout}>
             <i className="fa-solid fa-right-from-bracket" /> &nbsp; Logout
           </Button>
@@ -29,7 +29,7 @@ export default function HomePageTopBar() {
           </Button>
         </div>
       ) : (
-        <div>
+        <div className="HomePageTopBar-whenLoggedOut">
           <Button onClick={() => navigate("/login")} className="px-4 py-2 m-3">
             {" "}
             <i className="fa-solid fa-right-to-bracket" /> &nbsp; Login
